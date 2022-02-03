@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+// Component Imports
+import GameSettings from './components/GameSettings.js';
+import GameDisplay from './components/GameDisplay.js';
+
 
 function App() {
+
+  // Application State
+  const [appPlayerInfo, setAppPlayerInfo] = useState([]);
+
+  // This function is passed down into components so that I can update the playerInfo pieces of state in the App.js component
+  // with info that is contained in my other components.
+  // When I call this function I'm always going to call it with an array of player objects.
+  const updateAppPlayerInfo = function(playerInfoFromComponent) {
+    setAppPlayerInfo(playerInfoFromComponent);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Wow it's a Game App!</h1>
+      
+      <Routes>
+        <Route path='/' element= {<GameSettings updateAppPlayerInfo={updateAppPlayerInfo}/>} />
+        <Route path='/game' element={<GameDisplay appPlayerInfo={appPlayerInfo} updateAppPlayerInfo={updateAppPlayerInfo}/>} />
+      </Routes>
     </div>
   );
 }
